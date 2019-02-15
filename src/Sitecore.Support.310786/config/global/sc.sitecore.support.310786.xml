@@ -1,0 +1,16 @@
+<Settings>
+  <Sitecore>
+    <Publishing>
+      <Services>
+		<IncrementalPublishHandler>
+          <Type>Sitecore.Support.Framework.Publishing.PublishJobQueue.Handlers.IncrementalPublishHandler, Sitecore.Support.310786</Type>
+		  <As>Sitecore.Framework.Publishing.PublishJobQueue.IPublishJobHandler, Sitecore.Framework.Publishing.Service.Abstractions</As>
+        </IncrementalPublishHandler>
+        <TreePublishHandler>
+          <Type>Sitecore.Support.Framework.Publishing.PublishJobQueue.Handlers.TreePublishHandler, Sitecore.Support.310786</Type>
+		  <As>Sitecore.Framework.Publishing.PublishJobQueue.IPublishJobHandler, Sitecore.Framework.Publishing.Service.Abstractions</As>
+        </TreePublishHandler>
+	  </Services>
+    </Publishing>
+  </Sitecore>
+</Settings>
