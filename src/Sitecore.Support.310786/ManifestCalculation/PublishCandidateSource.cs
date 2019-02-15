@@ -368,10 +368,28 @@
           if (keyValuePair.Value != null)
           {
             Guid? nullable = ParseSitecoreGuidField(keyValuePair.Value, PublishingConstants.WorkflowFields.WorkflowState, null);
-            if (!nullable.HasValue || _publishableStates.ContainsKey(nullable.Value))
+            #region Added code
+            bool validToPublish = true;
+            var validTo = ParseSitecoreDateField(keyValuePair.Value,
+                                                             PublishingConstants.PublishingFields.Versioned.ValidTo,
+                                                             MaxUtc);
+            var validFrom = ParseSitecoreDateField(
+                    keyValuePair.Value,
+                    PublishingConstants.PublishingFields.Versioned.ValidFrom,
+                    MinUtc);
+            if ((validFrom <= validTo && validTo < DateTime.UtcNow) ||
+                        (validFrom > DateTime.UtcNow && validTo < validFrom))
+            {
+              validToPublish = false;
+            }
+            #endregion
+
+            #region Modified code
+            if (validToPublish && (!nullable.HasValue || _publishableStates.ContainsKey(nullable.Value)))
             {
               dateTime2 = ParseSitecoreDateField(keyValuePair.Value, PublishingConstants.PublishingFields.Versioned.ValidFrom, MaxUtc);
             }
+            #endregion
             if (VarianceOverriddenByNewerVariance(list, dateTime) && dateTime2 != MaxUtc)
             {
               isPublishable = false;
